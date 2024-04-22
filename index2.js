@@ -42,7 +42,7 @@ async function checkControllers() {
 
           )
 
-        client.channels.cache.get('1025710467840229417').send({ embeds: [onlineEmbed] });
+        client.channels.cache.get('CHANNEL_ID').send({ embeds: [onlineEmbed] });
       }
     }
   }
@@ -55,7 +55,7 @@ async function checkControllers() {
         .setTitle(`${controllerCallsign} is offline.`)
         .setTimestamp();
 
-      client.channels.cache.get('1025710467840229417').send({ embeds: [offlineEmbed] });
+      client.channels.cache.get('CHANNEL_ID').send({ embeds: [offlineEmbed] });
     }
   }
 
