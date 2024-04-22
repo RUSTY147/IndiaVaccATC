@@ -34,7 +34,13 @@ async function checkControllers() {
         const onlineEmbed = new MessageEmbed()
           .setColor('00FF00') // Green for online
           .setTitle(`${callsign} is online!`)
-          .setTimestamp();
+          .setTimestamp()
+          .addFields(
+            {name: 'Controller Name' ,value : `${controller.name}(${controller.cid}) `},
+            {name: 'Rating', value: `${controller.rating}`},
+            // {name: 'CID', value: `${controller.cid} is online!`},
+
+          )
 
         client.channels.cache.get('1025710467840229417').send({ embeds: [onlineEmbed] });
       }
