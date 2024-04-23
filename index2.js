@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 const { Client, Intents, MessageEmbed } = require('discord.js');
+const { ActivityType } = require('discord-api-types/v10');
+
 
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -14,6 +16,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   checkControllers();
   setInterval(checkControllers, 10000); // Check every 10 seconds, adjust as needed
+  client.user.setActivity({name:"INDIAN AIRSPACE " ,type: ActivityType.Watching,status: 'online' })
 });
 
 async function checkControllers() {
@@ -24,7 +27,8 @@ async function checkControllers() {
 
   for (const controller of data.controllers) {
     const callsign = controller.callsign;
-    const isRelevant = callsign.startsWith('VABB', 'VABF', 'VOGO', 'VOBL', 'VOMM');
+    // const isRelevant = callsign.startsWith('VABB', 'VABF', 'VOGO', 'VOBL', 'VOMM');
+    const isRelevant = callsign.startsWith('VABB', 'VABF', 'VOGO', 'VOBL', 'VOMM','VOBL','VOHS','VECC','VECF','VIDP','VIDF','VOMF');
 
     if (isRelevant) {
       newControllersOnline[callsign] = true;
