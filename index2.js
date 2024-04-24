@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { Client, Intents, MessageEmbed } = require('discord.js');
+const { ActivityType } = require('discord-api-types/v10');
 
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
@@ -14,6 +15,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   checkControllers();
   setInterval(checkControllers, 10000); // Check every 10 seconds, adjust to your needs
+  client.user.setActivity({name:"INDIAN AIRSPACE " ,type: ActivityType.Watching,status: 'online' }) 
 });
 
 async function checkControllers() {
@@ -21,6 +23,13 @@ async function checkControllers() {
   const data = await response.json();
 
   const newControllersOnline = {};
+  const positionNames = {
+    "VABB_TWR": "Mumbai Tower",
+    "VABB_T_APP": "Mumbai Approach",
+    "VABB_DEL": "Mumbai Delivery",
+    "VOBL_TWR": "Benguluru Tower"
+    // Add more mappings as needed
+  };
 
   for (const controller of data.controllers) {
     if (controller.callsign.startsWith('VA') || 
@@ -30,10 +39,12 @@ async function checkControllers() {
       newControllersOnline[controller.callsign] = true;
       if (!controllersOnline[controller.callsign]) {
         // This controller just came online
+        const positionName = positionNames[controller.callsign] || controller.callsign;
+
         const embed = new MessageEmbed()
           .setColor('#00FF00')
-          .setTitle(`${controller.callsign} is online!`)
-          .setDescription('This controller just came online.')
+          .setTitle(`${positionName} (${controller.callsign}) is online!`)
+          //.setDescription('This controller just came online.')
           .addFields(
             {name: 'Controller Name' ,value : `${controller.name}(${controller.cid}) `},
             {name: 'Rating', value: `${controller.rating}`},
@@ -41,20 +52,22 @@ async function checkControllers() {
 
           )
           .setTimestamp();
-        client.channels.cache.get('CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
+        client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
       }
     }
   }
 
   for (const controllerCallsign in controllersOnline) {
+    
     if (!newControllersOnline[controllerCallsign]) {
       // This controller just went offline
+      const positionName = positionNames[controller.callsign] || controller.callsign;
       const embed = new MessageEmbed()
         .setColor('#ff0000')
-        .setTitle(`${controllerCallsign} is offline.`)
+        .setTitle(`${positionName} ${controllerCallsign} is offline.`)
         .setDescription('This controller just went offline.')
         .setTimestamp();
-      client.channels.cache.get('CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
+      client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
     }
   }
 
