@@ -367,12 +367,13 @@ async function checkControllers() {
     if (!newControllersOnline[controllerCallsign]) {
       // This controller just went offline
       //const positionName = positionNames[controller.callsign] || controller.callsign;
+      const positionName = positionNames[controllerCallsign] || controllerCallsign;
       const embed = new MessageEmbed()
         .setColor('#ff0000')
-        .setTitle(` ${controllerCallsign} is offline.`)
+        .setTitle(` ${positionName} ${controllerCallsign} is offline.`)
         //.setDescription('This controller just went offline.')
         .setTimestamp();
-      client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
+      client.channels.cache.get('1025710467840229417').send({ embeds: [embed] }); // replace with your channel id
     }
   }
 
