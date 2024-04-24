@@ -370,7 +370,7 @@ async function checkControllers() {
       const embed = new MessageEmbed()
         .setColor('#ff0000')
         .setTitle(` ${controllerCallsign} is offline.`)
-        .setDescription('This controller just went offline.')
+        //.setDescription('This controller just went offline.')
         .setTimestamp();
       client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
     }
