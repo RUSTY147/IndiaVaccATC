@@ -357,7 +357,7 @@ async function checkControllers() {
 
           )
           .setTimestamp();
-        client.channels.cache.get('1025710467840229417').send({ embeds: [embed] }); // replace with your channel id
+        client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
       }
     }
   }
@@ -373,11 +373,11 @@ async function checkControllers() {
         .setTitle(` ${positionName} ${controllerCallsign} is offline.`)
         //.setDescription('This controller just went offline.')
         .setTimestamp();
-      client.channels.cache.get('1025710467840229417').send({ embeds: [embed] }); // replace with your channel id
+      client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
     }
   }
 
   controllersOnline = newControllersOnline;
 }
 
-client.login('MTEwMTUyNjk2OTU0NTQwODU4Mg.GtB-bN.cD5vuBMnYJHAbKX0-aPk85W-D1DKr7TsX-ACZM'); // replace with your bot token
+client.login('YOUR_BOT_TOKEN'); // replace with your bot token
