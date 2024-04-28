@@ -380,4 +380,4 @@ async function checkControllers() {
   controllersOnline = newControllersOnline;
 }
 
-client.login('YOUR_BOT_TOKEN'); // replace with your bot token
+client.login('YOUR_BOT_TOKEN,'); // replace with your bot token
