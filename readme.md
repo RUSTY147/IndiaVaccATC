@@ -8,7 +8,7 @@ Here's how it works:
 The bot likely monitors the VATSIM network for ATC activity within the Indian Virtual Area (VAA).
 When a controller signs on to manage a specific virtual airport, the bot might send out notifications to pilots indicating the controller's availability.
 This allows you to plan your virtual flights efficiently, knowing when you'll have ATC guidance during takeoff, landing, and while navigating virtual airspace.
-Overall, the VATSIM India VAA ATC Bot acts as a helpful communication bridge between virtual pilots and controllers, ensuring a more organized and realistic virtual air traffic control experience.
+Overall, the VATSIM India VAAC ATC Bot acts as a helpful communication bridge between virtual pilots and controllers, ensuring a more organized and realistic virtual air traffic control experience.
 
 
 
