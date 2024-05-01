@@ -17,6 +17,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   checkControllers();
   setInterval(checkControllers, 10000); // Check every 10 seconds, adjust to your needs
+  setInterval(checkStatus, 10000);
   client.user.setActivity({name:"INDIAN AIRSPACE " ,type: ActivityType.Watching,status: 'online' }) 
 });
 async function checkStatus() {
@@ -26,25 +27,32 @@ async function checkStatus() {
 
     // Compare current data with previous data
     if (!previousStatusData || JSON.stringify(data) !== JSON.stringify(previousStatusData)) {
+      
+
+
       const embed = new MessageEmbed()
         .setColor("#3498db")
-        .setTitle(`Page Status: ${data.page.status}`)
-        .setDescription("**VATSIM NETWORK STATUS**")
+
+        //.setTitle(`Page Status: ${data.page.status}`)
+        .setDescription("**Incident Reports**")
         .addFields(
-          { name: "Page Name", value: data.page.name },
-          { name: "URL", value: data.page.url },
-          { name: "Active Incidents", value: data.activeIncidents.length.toString() }
+          //{ name: "Page Name", value: data.page.name },
+          
+          { name: "Active Incidents", value: data.activeIncidents.length.toString() },
+          //{ name: "URL", value: data.page.url },
+
+          
         );
 
       // Add active incidents as fields
-      const incidentFields = data.activeIncidents.map((incident) => ({
-        name: `Incident: ${incident.name}`,
-        value: `ID: ${incident.id}\nStatus: ${incident.status}\nImpact: ${incident.impact}\nStarted: ${new Date(incident.started).toUTCString()}\n[More Info](${incident.url})`
-      }));
-      embed.addFields(incidentFields);
+       const incidentFields = data.activeIncidents.map((incident) => ({
+         name: `Incident: ${incident.name}`,
+         value: `ID: ${incident.id}\nStatus: ${incident.status}\nImpact: ${incident.impact}\nStarted: ${new Date(incident.started).toUTCString()}\n[More Info](${incident.url})`
+       }));
+       embed.addFields(incidentFields);
 
       // Replace "YOUR_STATUS_CHANNEL_ID" with your desired channel ID
-      client.channels.cache.get("YOUR_CHANNEL_ID").send({ embeds: [embed] });
+      client.channels.cache.get("1025710467840229417").send({ embeds: [embed] });
 
       // Update previousStatusData
       previousStatusData = data;
