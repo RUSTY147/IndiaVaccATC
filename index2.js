@@ -7,9 +7,11 @@ const client = new Client({
 });
 
 const API_URL = "https://data.vatsim.net/v3/vatsim-data.json";
+const statusAPI = "https://network-status.vatsim.net/summary.json";
 
 // Store the online state of the controllers
 let controllersOnline = {};
+let previousStatusData = null;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -17,6 +19,40 @@ client.on('ready', () => {
   setInterval(checkControllers, 10000); // Check every 10 seconds, adjust to your needs
   client.user.setActivity({name:"INDIAN AIRSPACE " ,type: ActivityType.Watching,status: 'online' }) 
 });
+async function checkStatus() {
+  try {
+    const response = await fetch(statusAPI);
+    const data = await response.json();
+
+    // Compare current data with previous data
+    if (!previousStatusData || JSON.stringify(data) !== JSON.stringify(previousStatusData)) {
+      const embed = new MessageEmbed()
+        .setColor("#3498db")
+        .setTitle(`Page Status: ${data.page.status}`)
+        .setDescription("**VATSIM NETWORK STATUS**")
+        .addFields(
+          { name: "Page Name", value: data.page.name },
+          { name: "URL", value: data.page.url },
+          { name: "Active Incidents", value: data.activeIncidents.length.toString() }
+        );
+
+      // Add active incidents as fields
+      const incidentFields = data.activeIncidents.map((incident) => ({
+        name: `Incident: ${incident.name}`,
+        value: `ID: ${incident.id}\nStatus: ${incident.status}\nImpact: ${incident.impact}\nStarted: ${new Date(incident.started).toUTCString()}\n[More Info](${incident.url})`
+      }));
+      embed.addFields(incidentFields);
+
+      // Replace "YOUR_STATUS_CHANNEL_ID" with your desired channel ID
+      client.channels.cache.get("YOUR_CHANNEL_ID").send({ embeds: [embed] });
+
+      // Update previousStatusData
+      previousStatusData = data;
+    }
+  } catch (error) {
+    console.error("Error fetching status:", error);
+  }
+}
 
 async function checkControllers() {
   const response = await fetch(API_URL);
