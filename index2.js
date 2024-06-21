@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { Client, Intents, MessageEmbed } = require('discord.js');
+const {  Client, Intents, MessageActionRow, MessageButton,MessageEmbed } = require('discord.js');
 const { ActivityType } = require('discord-api-types/v10');
 
 const client = new Client({
@@ -394,13 +394,23 @@ async function checkControllers() {
           .setTitle(`${positionName} (${controller.callsign}) is online!`)
           //.setDescription('This controller just came online!.')
           .addFields(
-            {name: 'Controller Name' ,value : `${controller.name} (${controller.cid}) `},
+            { name: "Controller Name",
+                  value: `**[${controller.name}](https://stats.vatsim.net/stats/${controller.cid}) (${controller.cid})**`,
+                  inline: true },
             { name: 'Rating', value: `${controllerRating.short} - ${controllerRating.long}` },
 
             // {name: 'CID', value: `${controller.cid} is online!`},
 
           )
           .setTimestamp();
+         const button = new MessageButton()
+            .setStyle('LINK') // Can be PRIMARY, SECONDARY, SUCCESS, DANGER, or LINK
+            .setLabel('Feedback')
+            .setURL('https://indiavacc.org');
+          const row = new MessageActionRow().addComponents(button);
+        client.channels.cache
+          .get("YOUR_CHANNEL_ID") //Channel ID
+          .send({ embeds: [embed],components: [row] });
         client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
       }
     }
@@ -417,6 +427,14 @@ async function checkControllers() {
         .setTitle(` ${positionName} ${controllerCallsign} is offline.`)
         //.setDescription('This controller just went offline.')
         .setTimestamp();
+       const button = new MessageButton()
+            .setStyle('LINK') // Can be PRIMARY, SECONDARY, SUCCESS, DANGER, or LINK
+            .setLabel('Feedback')
+            .setURL('https://indiavacc.org');
+          const row = new MessageActionRow().addComponents(button);
+        client.channels.cache
+          .get("YOUR_CHANNEL_ID")
+          .send({ embeds: [embed],components: [row] });
       client.channels.cache.get('YOUR_CHANNEL_ID').send({ embeds: [embed] }); // replace with your channel id
     }
   }
