@@ -402,11 +402,13 @@ async function checkControllers() {
             // {name: 'CID', value: `${controller.cid} is online!`},
 
           )
-          .setTimestamp();
+          .setTimestamp()
+          .setFooter({ text: 'India vACC', iconURL: 'https://indiavacc.org/wp-content/uploads/2021/08/Vatsim_India_Logo-.png' });
+
          const button = new MessageButton()
             .setStyle('LINK') // Can be PRIMARY, SECONDARY, SUCCESS, DANGER, or LINK
             .setLabel('Feedback')
-            .setURL('https://indiavacc.org');
+            .setURL(`https://hq.vatwa.net/atc/feedback?cid=${controller.cid}`);
           const row = new MessageActionRow().addComponents(button);
         client.channels.cache
           .get("YOUR_CHANNEL_ID") //Channel ID
@@ -426,11 +428,12 @@ async function checkControllers() {
         .setColor('#ff0000')
         .setTitle(` ${positionName} ${controllerCallsign} is offline.`)
         //.setDescription('This controller just went offline.')
-        .setTimestamp();
+        .setTimestamp()
+        .setFooter({ text: 'India vACC', iconURL: 'https://indiavacc.org/wp-content/uploads/2021/08/Vatsim_India_Logo-.png' });
        const button = new MessageButton()
             .setStyle('LINK') // Can be PRIMARY, SECONDARY, SUCCESS, DANGER, or LINK
             .setLabel('Feedback')
-            .setURL('https://indiavacc.org');
+            .setURL(`https://hq.vatwa.net/atc/feedback?cid=${controller.cid}`);
           const row = new MessageActionRow().addComponents(button);
         client.channels.cache
           .get("YOUR_CHANNEL_ID")
