@@ -8,6 +8,7 @@ const client = new Client({
 
 const API_URL = "https://data.vatsim.net/v3/vatsim-data.json";
 const statusAPI = "https://network-status.vatsim.net/summary.json";
+const TARGET_CHANNEL_ID = ''; //Channel ID
 
 // Store the online state of the controllers
 let controllersOnline = {};
@@ -19,6 +20,26 @@ client.on('ready', () => {
   setInterval(checkControllers, 10000); // Check every 10 seconds, adjust to your needs
   setInterval(checkStatus, 10000);
   client.user.setActivity({name:"INDIAN AIRSPACE " ,type: ActivityType.Watching,status: 'online' }) 
+});
+
+client.on('messageCreate', async message => {
+  if (message.channel.id !== TARGET_CHANNEL_ID) return; // Only for your channel
+  if (message.author.bot) return; // Ignore bots
+
+  // Check: message must have ONLY image attachments
+  if (message.attachments.size > 0) {
+      const isAllImages = message.attachments.every(attachment =>
+          attachment.contentType?.startsWith('image')
+      );
+
+      if (isAllImages) {
+          try {
+              await message.react('👍');
+          } catch (error) {
+              console.error('Failed to react to image:', error);
+          }
+      }
+  }
 });
 async function checkStatus() {
   try {
